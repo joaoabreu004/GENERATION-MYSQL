@@ -1,0 +1,68 @@
+CREATE DATABASE db_generation_game_online; 
+
+
+USE db_generation_game_online; 
+
+CREATE TABLE TB_CLASSE (
+ID_CLASSE INT AUTO_INCREMENT PRIMARY KEY,
+TIPO VARCHAR(30) NOT NULL,
+PODER_PADRAO VARCHAR(50) 
+);
+
+
+INSERT INTO TB_CLASSE(ID_CLASSE, TIPO, PODER_PADRAO)VALUES 
+(DEFAULT, "NORMAL", "INVESTIDA"), 
+(default, "FOGO", "LABAREDA DE CHAMAS"), 
+(DEFAULT, "ÁGUA", "SQUEZZE"),
+(DEFAULT, "GRAMA", "CHICOTE"), 
+(DEFAULT, "ELÉTRICO", "RAIOZADA"), 
+(DEFAULT, "VOADOR", "CICLONE DE AREIA");  
+
+CREATE TABLE TB_PERSONAGEM (
+ID_PERSONAGEM INT AUTO_INCREMENT PRIMARY KEY,
+NOME VARCHAR(50) NOT NULL,
+EVOLUCAO VARCHAR(30) ,
+COR VARCHAR(30) NOT NULL,
+QTD_VIDAS INT NOT NULL,
+TIPO INT NOT NULL,
+PODER_DEFESA INT NOT NULL, 
+PODER_ATAQUE INT NOT NULL, 
+foreign key (TIPO) references TB_CLASSE(ID_CLASSE)
+); 
+
+
+INSERT INTO TB_PERSONAGEM (ID_PERSONAGEM, NOME, EVOLUCAO,COR, QTD_VIDAS, PODER_DEFESA , PODER_ATAQUE, TIPO) VALUES
+(DEFAULT, "PIKACHU", "RAICHU" , "AMARELO", 98, 900, 5777, 5),
+(DEFAULT, "CHARIZARD", "-", "VERMELHO", 78, 3453, 900, 2),
+(DEFAULT, "ZUBAT", "GOLBAT", "ROXO", 71, 7889, 2999, 6), 
+(DEFAULT, "ELEKID", "ELECTABUZZ", "AMARELO", 20, 700, 2000, 5),
+(DEFAULT, "IVYSAUR", "VENUSAUR", "VERDE", 89,2783,921, 4),
+(DEFAULT, "BLASTOISE", "-", "AZUL", 90, 4738, 2734, 3), 
+(DEFAULT, "EEVEE", "-", "MARROM", 70, 900 ,900,1), 
+(DEFAULT, "RAICHU", "-", "LARANJA", 98,5890,2000, 5); 
+
+
+-- Faça um SELECT que retorne todes os personagens cujo poder de ataque seja maior do que 2000.
+
+
+SELECT * FROM TB_PERSONAGEM WHERE PODER_ATAQUE > 2000;
+
+-- Faça um SELECT que retorne todes os personagens cujo poder de defesa esteja no intervalo 1000 e 2000.
+
+SELECT * FROM TB_PERSONAGEM WHERE PODER_ATAQUE BETWEEN 1000 AND 2000;  
+
+-- Faça um SELECT utilizando o operador LIKE, buscando todes os personagens que possuam a letra C no atributo nome.
+
+SELECT NOME FROM TB_PERSONAGEM WHERE NOME LIKE "%C%";
+
+-- Faça um SELECT utilizando a cláusula INNER JOIN, unindo os dados da tabela tb_personagens com os dados da tabela tb_classes.
+
+SELECT NOME, TB_CLASSE.ID_CLASSE
+FROM TB_PERSONAGEM
+INNER JOIN TB_CLASSE
+ON TB_CLASSE.ID_CLASSE = TB_PERSONAGEM.TIPO; 
+
+-- Faça um SELECT utilizando a cláusula INNER JOIN, unindo os dados da tabela tb_personagens com os dados da tabela tb_classes, onde traga apenas os personagens que pertençam a uma classe específica (Exemplo: Todes os personagens da classe dos arqueiros).
+SELECT NOME, TB_CLASSE.TIPO AS TIPO_POKEMON FROM TB_PERSONAGEM INNER JOIN TB_CLASSE
+ON TB_CLASSE.ID_CLASSE = TB_PERSONAGEM.TIPO
+WHERE TB_CLASSE.ID_CLASSE = 5;
